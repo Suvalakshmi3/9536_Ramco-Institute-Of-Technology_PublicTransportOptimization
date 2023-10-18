@@ -1,0 +1,31 @@
+import random
+
+# Simulated GPS data
+def get_gps_data():
+    latitude = 37.7749 + random.uniform(-0.1, 0.1)
+    longitude = -122.4194 + random.uniform(-0.1, 0.1)
+    return {'latitude': latitude, 'longitude': longitude}
+
+# Simulated ridership data
+def get_ridership_data():
+    passengers = random.randint(0, 50)
+    return {'passengers': passengers}
+
+# Sample output
+if __name__ == "__main__":
+    while True:
+        try:
+            gps_data = get_gps_data()
+            ridership_data = get_ridership_data()
+            
+            payload = {
+                'location': gps_data,
+                'ridership': ridership_data
+            }
+            
+            print(f"Published data: {payload}")
+            
+            time.sleep(60)  # Sending data every minute (adjust as needed)
+        
+        except Exception as e:
+            print(f"Error: {str(e)}")
