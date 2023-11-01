@@ -1,0 +1,69 @@
+import time
+
+class Bus:
+    def __init__(self, capacity, speed):
+        self.capacity = capacity
+        self.speed = speed
+        self.passengers = 0
+
+    def embark(self, passengers):
+        if self.passengers + passengers <= self.capacity:
+            self.passengers += passengers
+            return True
+        else:
+            return False
+
+    def disembark(self, passengers):
+        if self.passengers >= passengers:
+            self.passengers -= passengers
+            return True
+        else:
+            return False
+
+class BusStop:
+    def __init__(self, name, distance_to_next, destination):
+        self.name = name
+        self.distance_to_next = distance_to_next
+        self.destination = destination
+
+    def __str__(self):
+        return f"Bus Stop: {self.name}, Next Stop Distance: {self.distance_to_next}, Destination: {self.destination}"
+
+bus = Bus(capacity=50, speed=50)
+bus_stops = [
+    BusStop(name="Stop A", distance_to_next=10, destination="City Center"),
+    BusStop(name="Stop B", distance_to_next=15, destination="Mall"),
+    BusStop(name="Stop C", distance_to_next=12, destination="Park"),
+    BusStop(name="Stop D", distance_to_next=8, destination="Final Destination")
+]
+
+current_stop_index = 0
+while current_stop_index < len(bus_stops):
+    current_stop = bus_stops[current_stop_index]
+    print(current_stop)
+
+    passengers_waiting = 5
+    if current_stop.destination != bus_stops[-1].destination:
+        can_embark = bus.embark(passengers_waiting)
+    else:
+        can_embark = False
+
+    if can_embark:
+        print(f"{passengers_waiting} passengers board the bus.")
+    else:
+        print(f"The bus is full. {passengers_waiting} passengers wait for the next bus.")
+
+    time_to_next_stop = current_stop.distance_to_next / bus.speed * 60
+    time.sleep(time_to_next_stop)
+    print(f"Bus arrives at the next stop in {time_to_next_stop:.2f} minutes.")
+
+    passengers_to_disembark = 3
+    can_disembark = bus.disembark(passengers_to_disembark)
+    if can_disembark:
+        print(f"{passengers_to_disembark} passengers disembark the bus.")
+    else:
+        print("Not enough passengers to disembark.")
+    
+    current_stop_index += 1
+
+print("Bus has reached the final destination.")
